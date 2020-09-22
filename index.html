@@ -30,28 +30,31 @@
               <form>
                 <div class="form-group">
                   <label for="nama">Nama</label>
-                  <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Masukkan nama">
+                  <input type="text" class="form-control" id="inputName" placeholder="Masukkan nama">
                 </div>
                 <div class="form-group">
                   <label for="NIM">NIM</label>
-                  <input type="text" class="form-control" id="NIM" placeholder="Masukkan NIM" onchange="generateQR()">
-                  <a class="mt-4 btn btn-primary" onclick="generateQR()">test button gen to canvas</a>
+                  <input type="text" class="form-control" id="inputNIM" placeholder="Masukkan NIM" onchange="generateQR()">
                 </div>
                 <img src="" id="qr1" alt="">
                 <div class="form-group">
                   <label for="jurusan">Jurusan</label>
-                  <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Masukkan NIM">
+                  <input type="text" class="form-control" id="inputDep" placeholder="Masukkan jurusan">
+                </div>
+                <div class="form-group">
+                  <label for="jurusan">Fakultas</label>
+                  <input type="text" class="form-control" id="inputFac" placeholder="Masukkan Fakultas" >
                 </div>
                 <div class="form-group">
                   <label for="jurusan">Foto</label>
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFile">
+                    <input type="file" class="custom-file-input" id="inputimg" name="foto" accept="image/png, image/jpeg" >
                     <label class="custom-file-label" for="customFile">Choose file</label>
                   </div>
                 </div>
-                <button class="mt-4 btn btn-primary" onclick="generateCard()">Generate Card</button>
+                <a class="mt-4 btn btn-primary" onclick="generateCard()">Generate Card</a>
               </form>
-
+              
 
             </div>
           </div>
@@ -63,8 +66,6 @@
                 <hr>
                 <canvas id="ktm" width="250" height="380" style="border:1px solid #000000;">
                 </canvas>
-                <button class="mt-4 btn btn-primary">Download</button>
-                <img src="" id="placeHolder" alt="">
               </div>
             </div>
           </div>
@@ -82,32 +83,65 @@
  
       var canvas = document.getElementById('ktm');
       var context = canvas.getContext('2d');
+      context.font = "14px Arial";
+
       var imageObj = new Image();
+      var img = new Image();
       imageObj.src = 'ktm-template.png';
+
       
       imageObj.onload = function() {
         context.drawImage(imageObj,0,0,250,380);
       };
 
 
+      document.getElementById('inputimg').onchange = function(e) {
+        img.src = URL.createObjectURL(this.files[0]);
+      };
+
+
+      var txtName = document.getElementById('inputName');
+      var txtNIM = document.getElementById('inputNIM');
+      var txtDep = document.getElementById('inputDep');
+      var txtFac = document.getElementById('inputFac');
+
+
+
       
-      function generateQR(){   
-      var qrdata = document.getElementById('NIM');
+      function generateQR(){  
+      var qrdata = document.getElementById('inputNIM');
       $("#qr1").ClassyQR({
           type: 'text',
           text: qrdata.value
         });
-        generateToCanvas();
+        // generateToCanvas();
+        // 
+       
       };
 
 
-      function generateToCanvas(){
+      function generateCard(){
         var imageQR = new Image();
         imageQR.src = document.getElementById('qr1').src;
         context.drawImage(imageQR,1,290,100,100);
+        context.drawImage(img, 140,235,100,140);
+        context.textAlign = "end";
+        context.fillText(txtName.value, 240, 173);
+        context.fillText("NIM " + txtNIM.value, 240, 193);
+        context.font="11px arial";
+        context.fillText(txtDep.value, 240, 210);
+        context.fillText(txtFac.value, 240, 225);
       };
       
-          
+
+
+
+
+
+
+        
+      
+
       </script>
   
   </body>
