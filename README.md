@@ -1,2 +1,2 @@
 # KTMUSU-generator
-make it easier for students whose KTM is in a different place
+dedicated to students at the University of North Sumatra
